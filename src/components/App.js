@@ -29,6 +29,9 @@ class App extends Component {
     ],
   };
 
+  // player id counter
+  prevPlayerId = 4;
+
   handleScoreChange = (index, delta) => {
     this.setState((prevState) => {
       const updatedPlayers = [...prevState.players];
@@ -37,6 +40,21 @@ class App extends Component {
       updatedPlayers[index] = updatedPlayer;
       return {
         players: updatedPlayers,
+      };
+    });
+  };
+
+  handleAddPlayer = (name) => {
+    this.setState((prevState) => {
+      return {
+        players: [
+          ...prevState.players,
+          {
+            name, // whenever a key and variable name match, you can use the ES2015 shorthand syntax by writing just the key name
+            score: 0,
+            id: (this.prevPlayerId += 1),
+          },
+        ],
       };
     });
   };
@@ -66,7 +84,7 @@ class App extends Component {
             removePlayer={this.handleRemovePlayer}
           />
         ))}
-        <AddPlayerForm />
+        <AddPlayerForm addPlayer={this.handleAddPlayer} />
       </div>
     );
   }
